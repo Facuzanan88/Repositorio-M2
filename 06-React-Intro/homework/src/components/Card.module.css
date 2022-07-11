@@ -1,0 +1,87 @@
+.card {
+    position: relative;
+
+    border: 2px solid var(--border-color);
+    border-radius: 1rem;
+
+    width: fit-content;
+
+    padding: 0.25rem;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--card-bkg-color);
+
+}
+
+.cardBtn {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
+
+    box-sizing: border-box;
+    width: 1.5rem;
+    height: 1.5rem;
+
+    color: white;
+
+    border-radius: 9999px;
+    border: 1px solid var(--border-color);
+    background-color: var(--btn-bkg-danger);
+
+    cursor: pointer;
+
+    transition: background-color 250ms;
+}
+
+.cardBtn:hover {
+    background-color: var(--btn-bkg-danger-hover);
+}
+
+
+.card>section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.name {
+    font-size: 1.75rem;
+    font-weight: 400;
+    text-align: center;
+}
+
+.mainCard {
+    border-color: transparent;
+    background-color: transparent;
+}
+
+.mainCard .cardBtn {
+    display: none;
+}
+
+.mainCard .name {
+    font-size: 3rem;
+    color: rgba(255, 255, 255, 0.675);
+    text-align: left;
+    padding: 1rem;
+
+}
+
+.mainCard selection {
+    flex-direction: row-reverse;
+}
+
+.mainCard > section {
+    align-items: flex-start;
+}
+
+.mainCard > section > .temp {
+    color: white;
+    padding-top: 2rem;
+}
+
+.mainCard > section > img {
+    width: 150px;
+    height: 150px;
+}
