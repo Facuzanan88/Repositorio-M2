@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
+import { getMovies, addMovieFavorite } from "../../actions";
 import './Buscador.css';
 
 
@@ -12,11 +13,15 @@ export class Buscador extends Component {
       title: ""
     };
   }
+  // Funcion que ejecuta los cambios y los guarda en el estado interno
   handleChange(event) {
+    console.log(this.state.title)
     this.setState({ title: event.target.value });
   }
+  // Funcion que envia los datos 
   handleSubmit(event) {
     event.preventDefault();
+    this.props.getMovies(this.state.title)
   }
 
   render() {
@@ -38,11 +43,35 @@ export class Buscador extends Component {
           <button type="submit">BUSCAR</button>
         </form>
         <ul>
-         {/* Aqui tienes que escribir tu codigo para mostrar la lista de peliculas */}
+          {this.props.moviesLoaded && this.props.moviesLoaded.map(m =>
+            <div>
+              <Link to={`/movie/${m.imdbID}`}>
+                Titulo: {m.Title}
+              </Link>
+              <button onClick={() => {this.props.addMovieFavorite({title: m.Title, id: m.imdbID})}}>FAV</button>
+            </div>
+          )}
         </ul>
       </div>
     );
   }
 }
 
-export default Buscador;
+function mapStateToProps(state) {
+  return {
+    moviesLoaded: state.moviesLoaded,
+  }
+}
+
+// Funcion que le va a permitir al componente ejecutar action creator
+// Permite recibir al componente las action creator en forma de props para utilizarlas
+function mapDispatchToProps(dispatch) {
+  return {
+    getMovies: title => dispatch(getMovies(title)),
+    addMovieFavorite: movie => dispatch(addMovieFavorite(movie)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Buscador);
+
+// export default Buscador;
