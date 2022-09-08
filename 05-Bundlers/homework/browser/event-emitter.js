@@ -1,3 +1,4 @@
+
   // our EventEmitter constructor function
   function EventEmitter () {
     this.subscribers = {};
@@ -39,4 +40,4 @@
 
   };
 
-  module.exports= EventEmitter;
+module.exports = EventEmitter;
