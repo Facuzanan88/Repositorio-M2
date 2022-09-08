@@ -1,9 +1,12 @@
-import React from 'react'
+import React from 'react';
+
 
 function About() {
-  return (
-    <div>About Pikika</div>
-  )
-}
+    return (
+        <h1>
+            Pikika LaRosa
+        </h1>
+    );
+};
 
-export default About
+export default About;

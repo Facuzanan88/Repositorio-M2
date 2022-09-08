@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-
+import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import Nav from '../components/Nav.jsx';
 import Cards from '../components/Cards.jsx';
 import About from '../components/About.jsx';
 import Ciudad from '../components/Ciudad.jsx';
-
-import { Route } from 'react-router-dom';
 
 const apiKey = '4ae2636d8dfbdc3044bede63951a019b';
 
@@ -17,7 +15,7 @@ function App() {
   }
   function onSearch(ciudad) {
     //Llamado a la API del clima
-    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${apiKey}&units=metric`)
+    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${apiKey}`)
       .then(r => r.json())
       .then((recurso) => {
         if (recurso.main !== undefined) {
@@ -40,6 +38,8 @@ function App() {
         }
       });
   }
+
+  // busca en el estado local cities la ciudad que coincida con el id que me pasan
   function onFilter(ciudadId) {
     let ciudad = cities.filter(c => c.id === parseInt(ciudadId));
     if (ciudad.length > 0) {
@@ -50,22 +50,37 @@ function App() {
   }
   return (
     <div className="App">
-      <Route path="/">
-        <Nav onSearch={onSearch} />
-      </Route>
-      <main>
-        <Route
-          path="/about"
-          render={(props) => <About text="props extra" {...props} />}
-        />
-        <Route path="/" exact>
+
+      <Nav onSearch={onSearch} />
+
+      {/*   <Route path='/' exact>
+        <div>
           <Cards
             cities={cities}
             onClose={onClose}
           />
+        </div>
+      </Route>  */}
+
+      <Switch>
+        <Route exact path='/' render={() =>
+          <Cards
+            cities={cities}
+            onClose={onClose}
+          />
+        }>
         </Route>
-        <Route path="/ciudad/:id" component={Ciudad} />         
-      </main>
+
+        <Route path='/about' component={About} />
+
+        {/* los dos puntos indican que esa seccion del path va a recibir un parametro dinamico */}
+        <Route path='/ciudad/:ciudadId' render={({ match }) =>
+          <Ciudad
+            city={onFilter(match.params.ciudadId)}
+          />
+        } />
+      </Switch>
+      <hr />
     </div>
   );
 }
